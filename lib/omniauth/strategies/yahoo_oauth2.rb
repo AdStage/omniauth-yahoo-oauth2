@@ -68,14 +68,14 @@ module OmniAuth
       # n.b. renamed raw_info to userinfo. Userinfo is part of the OIDc standard.
       extra do
         hash = {}
-        hash[:userinfo] = raw_info unless skip_info?
+        hash[:userinfo] = raw_info
         hash[:id_token] = access_token["id_token"]
         hash[:id_info]  = decode_info_token
         prune! hash
       end
 
       def raw_info
-        @raw_info ||= access_token.get(userinfo_url).parsed
+        @raw_info ||= skip_info? ? {} : access_token.get(userinfo_url).parsed
       end
 
       private
